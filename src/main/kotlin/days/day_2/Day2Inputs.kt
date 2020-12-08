@@ -1,8 +1,9 @@
 package days.day_2
 
 data class PasswordInput(
-    val characterRepeatRange: IntRange,
-    val characterToBeRepeated: Char,
+    val passwordPolicyNumber1: Int,
+    val passwordPolicyNumber2: Int,
+    val passwordPolicyCharacter: Char,
     val password: String
 )
 
@@ -1014,8 +1015,9 @@ object Day2Inputs {
             val char = parts[1].trim()
             val password = parts[2].trim()
             PasswordInput(
-                characterRepeatRange = range[0].toInt()..range[1].toInt(),
-                characterToBeRepeated = char.first(),
+                passwordPolicyNumber1 = range[0].toInt(),
+                passwordPolicyNumber2 = range[1].toInt(),
+                passwordPolicyCharacter = char.first(),
                 password = password,
             )
         }

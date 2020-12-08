@@ -11,7 +11,8 @@ class Day2Task1 {
                     }
                     countMap
                 }
-            characterRepetitionsInPassword[passwordInput.characterToBeRepeated] in passwordInput.characterRepeatRange
+            characterRepetitionsInPassword[passwordInput.passwordPolicyCharacter] in
+                    passwordInput.passwordPolicyNumber1..passwordInput.passwordPolicyNumber2
         }
     }
 }
