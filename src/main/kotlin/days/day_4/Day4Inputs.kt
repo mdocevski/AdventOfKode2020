@@ -1,6 +1,74 @@
 package days.day_4
 
-data class Input(val data: List<String>)
+data class Input(val data: List<String>) {
+
+    @Throws(NoSuchElementException::class)
+    fun getDatum(datumType: DatumType): String {
+        return data.first { it.contains(datumType.fieldName) }.split(":")[1]
+    }
+
+    fun containsDatum(datumType: DatumType): Boolean {
+        return data.any { it.contains(datumType.fieldName) }
+    }
+
+    enum class DatumType(val fieldName: String) {
+        BirthYear("byr") {
+            override fun isValid(datum: String): Boolean {
+                val birthYear = datum.toIntOrNull()
+                return !(birthYear == null || birthYear < 1920 || birthYear > 2002)
+            }
+        },
+        IssueYear("iyr") {
+            override fun isValid(datum: String): Boolean {
+                val issueYear = datum.toIntOrNull()
+                return !(issueYear == null || issueYear < 2010 || issueYear > 2020)
+            }
+        },
+        ExpirationYear("eyr") {
+            override fun isValid(datum: String): Boolean {
+                val expirationYear = datum.toIntOrNull()
+                return !(expirationYear == null || expirationYear < 2020 || expirationYear > 2030)
+            }
+        },
+        Height("hgt") {
+            private val regex = Regex("(\\d+)(cm|in)")
+
+            override fun isValid(datum: String): Boolean {
+                return if (regex.matches(datum)) {
+                    val (height, heightUnit) = regex.matchEntire(datum)?.groupValues?.let { it[1].toInt() to it[2] }
+                        ?: return false
+                    when (heightUnit) {
+                        "cm" -> height in 150..193
+                        "in" -> height in 59..76
+                        else -> false
+                    }
+                } else {
+                    false
+                }
+            }
+        },
+        HairColor("hcl") {
+            private val regex = Regex("#[0-9abcdef]{6}")
+
+            override fun isValid(datum: String): Boolean = regex.matches(datum)
+        },
+        EyeColor("ecl") {
+            private val allowedColors = listOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
+
+            override fun isValid(datum: String): Boolean = allowedColors.any { it == datum }
+        },
+        PassportID("pid") {
+            private val regex = Regex("\\d{9}")
+
+            override fun isValid(datum: String): Boolean = regex.matches(datum)
+        },
+        CountryID("cid") {
+            override fun isValid(datum: String): Boolean = true
+        };
+
+        abstract fun isValid(datum: String): Boolean
+    }
+}
 
 object Day4Inputs {
 
