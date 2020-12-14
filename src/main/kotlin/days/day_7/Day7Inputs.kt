@@ -1,11 +1,23 @@
 package days.day_7
 
+import days.day_7.Day7Inputs.stripBags
+
 data class Input(
     val topBag: String,
     val bagsCount: List<Pair<String, Int>>
 )
 
 object Day7Inputs {
+
+    val testInputs get() = """
+        shiny gold bags contain 2 dark red bags.
+        dark red bags contain 2 dark orange bags.
+        dark orange bags contain 2 dark yellow bags.
+        dark yellow bags contain 2 dark green bags.
+        dark green bags contain 2 dark blue bags.
+        dark blue bags contain 2 dark violet bags.
+        dark violet bags contain no other bags.
+    """.trimIndent().prepInputs()
 
     val inputs
         get() = """
@@ -603,19 +615,21 @@ object Day7Inputs {
         muted purple bags contain 4 striped purple bags.
         faded silver bags contain 1 light purple bag, 3 bright tomato bags, 1 mirrored magenta bag.
         vibrant olive bags contain 3 muted turquoise bags, 5 wavy blue bags, 1 dotted silver bag, 5 striped tan bags.
-    """.trimIndent().split("\n").map { input ->
-            input.substring(0 until input.length - 1)
-                .split(" contain ").let { bagsString ->
-                    Input(
-                        bagsString[0].stripBags(),
-                        bagsString[1].split(",").map { bagString ->
-                            bagRegex.matchEntire(bagString.stripBags().trim())?.groupValues?.let {
-                                it[2] to it[1].toInt()
-                            }
-                        }.filterNotNull()
-                    )
-                }
-        }
+    """.trimIndent().prepInputs()
+
+    private fun String.prepInputs(): List<Input> = this.split("\n").map { input ->
+        input.substring(0 until input.length - 1)
+            .split(" contain ").let { bagsString ->
+                Input(
+                    bagsString[0].stripBags(),
+                    bagsString[1].split(",").map { bagString ->
+                        bagRegex.matchEntire(bagString.stripBags().trim())?.groupValues?.let {
+                            it[2] to it[1].toInt()
+                        }
+                    }.filterNotNull()
+                )
+            }
+    }
 
     private val bagsRegex = Regex("\\sbags?")
 
