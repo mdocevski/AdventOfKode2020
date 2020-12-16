@@ -642,10 +642,10 @@ object Day8Inputs {
         acc +34
         jmp +1
     """.trimIndent().split("\n").map { input ->
-        val inputValues = input.split(" ")
+            val inputValues = input.split(" ")
             Input(
-            action = Input.Instruction.fromName(inputValues[0]),
+                action = Input.Instruction.fromName(inputValues[0]),
                 value = inputValues[1].toInt()
-        )
+            )
         }
 }
