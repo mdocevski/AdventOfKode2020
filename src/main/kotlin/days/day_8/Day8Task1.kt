@@ -13,14 +13,14 @@ class Day8Task1 {
         val nextInput = inputs[currentIndex]
         visitedIndexes.add(currentIndex)
         when (nextInput.action) {
-            Input.ActionType.Acc -> {
+            Input.Instruction.AddToAccumulator -> {
                 currentIndex += 1
                 accumulator += nextInput.value
             }
-            Input.ActionType.Nop -> {
+            Input.Instruction.NoOperation -> {
                 currentIndex += 1
             }
-            Input.ActionType.Jmp -> {
+            Input.Instruction.Jump -> {
                 currentIndex += nextInput.value
             }
         }

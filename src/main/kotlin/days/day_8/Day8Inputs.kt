@@ -1,14 +1,14 @@
 package days.day_8
 
-data class Input(val action: ActionType, val value: Int) {
+data class Input(val action: Instruction, val value: Int) {
 
-    enum class ActionType(val actionName: String) {
+    enum class Instruction(val actionName: String) {
 
-        Nop("nop"), Acc("acc"), Jmp("jmp");
+        NoOperation("nop"), AddToAccumulator("acc"), Jump("jmp");
 
         companion object {
 
-            fun fromName(name: String): ActionType = ActionType.values().first { it.actionName == name }
+            fun fromName(name: String): Instruction = values().first { it.actionName == name }
         }
     }
 }
@@ -644,7 +644,7 @@ object Day8Inputs {
     """.trimIndent().split("\n").map { input ->
         val inputValues = input.split(" ")
             Input(
-            action = Input.ActionType.fromName(inputValues[0]),
+            action = Input.Instruction.fromName(inputValues[0]),
                 value = inputValues[1].toInt()
         )
         }
